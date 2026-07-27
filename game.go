@@ -69,7 +69,7 @@ type Game struct {
 	NumMapEventsCreated            Int32
 	MapEventRecords                []MapEventRecord
 	NumTroops                      Int32
-	/*Troops                         []Troop
+	Troops                         []Troop
 	_unused5                       [42]Int32
 	NumItemKinds                   Int32
 	ItemKinds                      []ItemKind
@@ -78,7 +78,7 @@ type Game struct {
 	PlayerKillCount                Int32
 	PlayerWoundedCount             Int32
 	PlayerOwnTroopKillCount        Int32
-	PlayerOwnTroopWoundedCount     Int32*/
+	PlayerOwnTroopWoundedCount     Int32
 }
 
 func (game *Game) Read(file *os.File) {
@@ -210,4 +210,31 @@ func (game *Game) Read(file *os.File) {
 
 	game.NumMapEventRecords.Read(file)
 	game.NumMapEventsCreated.Read(file)
+	game.MapEventRecords = make([]MapEventRecord, game.NumMapEventRecords)
+	for i := 0; i < len(game.MapEventRecords); i++ {
+		game.MapEventRecords[i].Read(file)
+	}
+
+	game.NumTroops.Read(file)
+	game.Troops = make([]Troop, game.NumTroops)
+	for i:= 0; i < len(game.Troops); i++ {
+		game.Troops[i].Read(file)
+	}
+
+	for i:=0; i< len(game._unused5); i++ {
+		game._unused5[i].Read(file)
+	}
+
+	game.NumItemKinds.Read(file)
+	game.ItemKinds = make([]ItemKind, game.NumItemKinds)
+	for i:=0; i< len(game.ItemKinds); i++ {
+		game.ItemKinds[i].Read(file)
+	}
+
+	game.PlayerFaceKeys0.Read(file)
+	game.PlayerFaceKeys1.Read(file)
+	game.PlayerKillCount.Read(file)
+	game.PlayerWoundedCount.Read(file)
+	game.PlayerOwnTroopKillCount.Read(file)
+	game.PlayerOwnTroopWoundedCount.Read(file)
 }

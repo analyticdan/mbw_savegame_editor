@@ -7,24 +7,31 @@ import (
 	"os"
 )
 
-func main() {
-	path := "/home/daniel/.mbwarband/Savegames/Native/sg00.sav"
-
+func load(path string) (game Game, err error) {
 	file, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
-		return
+		return Game{}, err
 	}
 	defer file.Close()
 
-	game := Game{}
 	game.Read(file)
+
+	return
+}
+
+func main() {
+	path := "C:/Users/Daniel/Documents/Mount&Blade Warband Savegames/Vexed Native 1.154/sg03.sav"
+
+	game, err := load(path)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	out, err := os.Create("out.json")
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+	defer out.Close()
 	encoder := json.NewEncoder(out)
 	encoder.SetIndent("", "    ") 
 
@@ -33,8 +40,8 @@ func main() {
 		panic(err)
 	}
 
-	/*bytes, _ := json.MarshalIndent(game.PartyRecords[0], "", "  ")
+	/*bytes, _ := json.MarshalIndent(game.ItemKinds, "", "  ")
 	fmt.Println(string(bytes))*/
 
-	fmt.Println(game.NumMapEventRecords)
+	fmt.Println(game.PlayerFaceKeys0, game.PlayerFaceKeys1)
 }
