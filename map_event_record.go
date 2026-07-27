@@ -9,7 +9,7 @@ type MapEventRecord struct {
 }
 
 func (mapEventRecord MapEventRecord) Read(file *os.File) {
-	mapEventRecord.Valid.Read(file);
+	mapEventRecord.Valid.Read(file)
 	if mapEventRecord.Valid == 1 {
 		mapEventRecord.Id.Read(file)
 		mapEventRecord.MapEvent.Read(file)

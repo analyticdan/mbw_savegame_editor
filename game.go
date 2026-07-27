@@ -199,8 +199,8 @@ func (game *Game) Read(file *os.File) {
 		/*TODO: Read in troop.txt module data to get true value of isHero.
 		Below check uses a hard-coded value based on Native.*/
 		isHero := troopId == 0 || (troopId >= 194 && troopId < 463)
-		
-		if (isHero) {
+
+		if isHero {
 			game.PlayerPartyStackAdditionalInfo[i].IsValid = false
 		} else {
 			game.PlayerPartyStackAdditionalInfo[i].IsValid = true
@@ -217,17 +217,17 @@ func (game *Game) Read(file *os.File) {
 
 	game.NumTroops.Read(file)
 	game.Troops = make([]Troop, game.NumTroops)
-	for i:= 0; i < len(game.Troops); i++ {
+	for i := 0; i < len(game.Troops); i++ {
 		game.Troops[i].Read(file)
 	}
 
-	for i:=0; i< len(game._unused5); i++ {
+	for i := 0; i < len(game._unused5); i++ {
 		game._unused5[i].Read(file)
 	}
 
 	game.NumItemKinds.Read(file)
 	game.ItemKinds = make([]ItemKind, game.NumItemKinds)
-	for i:=0; i< len(game.ItemKinds); i++ {
+	for i := 0; i < len(game.ItemKinds); i++ {
 		game.ItemKinds[i].Read(file)
 	}
 

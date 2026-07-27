@@ -35,7 +35,7 @@ func (i *UInt64) Read(file *os.File) {
 
 func (f *Float) Read(file *os.File) {
 	binary.Read(file, binary.LittleEndian, f)
-	/* TODO: fix this workaround so json is happy */
+	/* TODO: Fix this workaround implemented to use JSON for debugging. */
 	if math.IsNaN(float64(*f)) {
 		*f = 0
 	}

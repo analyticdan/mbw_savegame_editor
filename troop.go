@@ -55,7 +55,7 @@ func (troop *Troop) Read(file *os.File) {
 
 	/*TODO: Clean up this hardcoded variable.*/
 	heroFlag := UInt64(0x00000010)
-	isHero := troop.Flags & heroFlag != 0
+	isHero := troop.Flags&heroFlag != 0
 	/*TODO: This variable should be obtained from module.ini. */
 	loadRegularTroopInventory := false
 	if isHero || loadRegularTroopInventory {
@@ -63,22 +63,20 @@ func (troop *Troop) Read(file *os.File) {
 		troop.Experience.Read(file)
 		troop.Health.Read(file)
 		troop.FactionId.Read(file)
-		for i := 0; i < len(troop.InventoryItems); i ++ {
+		for i := 0; i < len(troop.InventoryItems); i++ {
 			troop.InventoryItems[i].Read(file)
 		}
-		for i := 0; i < len(troop.EquippedItems); i ++ {
+		for i := 0; i < len(troop.EquippedItems); i++ {
 			troop.EquippedItems[i].Read(file)
 		}
 		for i := 0; i < len(troop.FaceKeys); i++ {
 			troop.FaceKeys[i].Read(file)
 		}
 		troop.Renamed.Read(file)
-		if (troop.Renamed) {
+		if troop.Renamed {
 			troop.Name.Read(file)
 			troop.NamePlural.Read(file)
 		}
-
-
 	}
 	troop.ClassNo.Read(file)
 }

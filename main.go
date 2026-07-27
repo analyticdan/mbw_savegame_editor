@@ -33,8 +33,7 @@ func main() {
 	}
 	defer out.Close()
 	encoder := json.NewEncoder(out)
-	encoder.SetIndent("", "    ") 
-
+	encoder.SetIndent("", "    ")
 	err = encoder.Encode(game)
 	if err != nil {
 		panic(err)
