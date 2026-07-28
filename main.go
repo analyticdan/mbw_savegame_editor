@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-var JsonDebug = false
+var DisableNaN = false
 
 func load(path string) (game Game, err error) {
 	file, err := os.Open(path)
@@ -31,48 +31,17 @@ func save(path string, game Game) (err error) {
 
 func main() {
 	inPath := "sg03.sav"
-	JsonDebug = true
 	game, err := load(inPath)
 	if err != nil {
 		panic(err)
 	}
-	ExportToJSON("out.json", game)
-	err = save("out.sav", game)
-	if err != nil {
-		panic(err)
+
+	for _, faction := range game.Factions {
+		PrintJson(faction.Name)
 	}
-	game1, err := load("out.sav")
-	if err != nil {
-		panic(err)
-	}
-	ExportToJSON("out1.json", game1)
-	/*game, err := load("sg03.sav")
-	if err != nil {
-		panic(err)
-	}
-	err = save("out3.sav", game)
-	if err != nil {
-		panic(err)
-	}
-	game, err = load("sg04.sav")
-	if err != nil {
-		panic(err)
-	}
-	err = save("out4.sav", game)
-	if err != nil {
-		panic(err)
-	}
-	game, err = load("sg05.sav")
-	if err != nil {
-		panic(err)
-	}
-	err = save("out5.sav", game)
-	if err != nil {
-		panic(err)
-	}*/
 }
 
-func ExportToJSON(path string, game Game) {
+func ExportToJson(path string, game Game) {
 	out, err := os.Create(path)
 	if err != nil {
 		panic(err)
@@ -86,7 +55,7 @@ func ExportToJSON(path string, game Game) {
 	}
 }
 
-func PrintJSON(gameObject any) {
+func PrintJson(gameObject any) {
 	bytes, err := json.MarshalIndent(gameObject, "", "  ")
 	if err != nil {
 		panic(err)

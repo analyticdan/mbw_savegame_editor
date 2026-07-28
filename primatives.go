@@ -93,8 +93,8 @@ func (f *Float) Read(file *os.File) {
 	if err != nil {
 		panic(err)
 	}
-	/* TODO: Remove this. */
-	if JsonDebug && math.IsNaN(float64(*f)) {
+	/* For debugging purposes, as NaN cannot be compared or turned into JSON. */
+	if DisableNaN && math.IsNaN(float64(*f)) {
 		*f = 0
 	}
 }
