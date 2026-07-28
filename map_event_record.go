@@ -18,20 +18,11 @@ func (mapEventRecord *MapEventRecord) Read(file *os.File) {
 	}
 }
 
-func (mapEventRecord *MapEventRecord) Append(buf []byte) ([]byte, error) {
-	buf, err := mapEventRecord.Valid.Append(buf)
-	if err != nil {
-		return buf, err
-	}
+func (mapEventRecord *MapEventRecord) Append(buf []byte) []byte {
+	buf = mapEventRecord.Valid.Append(buf)
 	if mapEventRecord.Valid == 1 {
-		buf, err = mapEventRecord.Id.Append(buf)
-		if err != nil {
-			return buf, err
-		}
-		buf, err = mapEventRecord.MapEvent.Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = mapEventRecord.Id.Append(buf)
+		buf = mapEventRecord.MapEvent.Append(buf)
 	}
-	return buf, err
+	return buf
 }

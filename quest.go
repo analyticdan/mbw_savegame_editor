@@ -33,47 +33,20 @@ func (quest *Quest) Read(file *os.File) {
 	}
 }
 
-func (quest *Quest) Append(buf []byte) ([]byte, error) {
-	buf, err := quest.Progression.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = quest.GiverTroopId.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = quest.Number.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = quest.StartDate.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = quest.Title.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = quest.Text.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = quest.Giver.Append(buf)
-	if err != nil {
-		return buf, err
-	}
+func (quest *Quest) Append(buf []byte) []byte {
+	buf = quest.Progression.Append(buf)
+	buf = quest.GiverTroopId.Append(buf)
+	buf = quest.Number.Append(buf)
+	buf = quest.StartDate.Append(buf)
+	buf = quest.Title.Append(buf)
+	buf = quest.Text.Append(buf)
+	buf = quest.Giver.Append(buf)
 	for i := 0; i < len(quest.Notes); i++ {
-		buf, err = quest.Notes[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = quest.Notes[i].Append(buf)
 	}
-	buf, err = quest.NumSlots.Append(buf)
+	buf = quest.NumSlots.Append(buf)
 	for i := 0; i < len(quest.Slots); i++ {
-		buf, err = quest.Slots[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = quest.Slots[i].Append(buf)
 	}
-	return buf, err
+	return buf
 }

@@ -18,18 +18,10 @@ func (note *Note) Read(file *os.File) {
 	note.Available.Read(file)
 }
 
-func (note *Note) Append(buf []byte) ([]byte, error) {
-	buf, err := note.Text.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = note.Value.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = note.TableauMaterialId.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	return note.Available.Append(buf)
+func (note *Note) Append(buf []byte) []byte {
+	buf = note.Text.Append(buf)
+	buf = note.Value.Append(buf)
+	buf = note.TableauMaterialId.Append(buf)
+	buf = note.Available.Append(buf)
+	return buf
 }

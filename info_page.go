@@ -14,13 +14,9 @@ func (infoPage *InfoPage) Read(file *os.File) {
 	}
 }
 
-func (infoPage *InfoPage) Append(buf []byte) ([]byte, error) {
-	var err error // Need this declaration here to prevent buf being scoped to for-loop.
+func (infoPage *InfoPage) Append(buf []byte) []byte {
 	for i := 0; i < len(infoPage.Notes); i++ {
-		buf, err = infoPage.Notes[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = infoPage.Notes[i].Append(buf)
 	}
-	return buf, err
+	return buf
 }

@@ -12,10 +12,8 @@ func (item *Item) Read(file *os.File) {
 	item.ItemFlags.Read(file)
 }
 
-func (item *Item) Append(buf []byte) ([]byte, error) {
-	buf, err := item.ItemKindId.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	return item.ItemFlags.Append(buf)
+func (item *Item) Append(buf []byte) []byte {
+	buf = item.ItemKindId.Append(buf)
+	buf = item.ItemFlags.Append(buf)
+	return buf
 }

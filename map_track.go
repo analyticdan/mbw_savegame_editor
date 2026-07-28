@@ -20,26 +20,12 @@ func (mapTrack *MapTrack) Read(file *os.File) {
 	mapTrack.Flags.Read(file)
 }
 
-func (mapTrack *MapTrack) Append(buf []byte) ([]byte, error) {
-	buf, err := mapTrack.PositionX.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = mapTrack.PositionY.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = mapTrack.PositionZ.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = mapTrack.Rotation.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = mapTrack.Age.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	return mapTrack.Flags.Append(buf)
+func (mapTrack *MapTrack) Append(buf []byte) []byte {
+	buf = mapTrack.PositionX.Append(buf)
+	buf = mapTrack.PositionY.Append(buf)
+	buf = mapTrack.PositionZ.Append(buf)
+	buf = mapTrack.Rotation.Append(buf)
+	buf = mapTrack.Age.Append(buf)
+	buf = mapTrack.Flags.Append(buf)
+	return buf
 }

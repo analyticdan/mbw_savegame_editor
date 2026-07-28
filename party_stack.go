@@ -16,18 +16,10 @@ func (partyStack *PartyStack) Read(file *os.File) {
 	partyStack.Flags.Read(file)
 }
 
-func (partyStack *PartyStack) Append(buf []byte) ([]byte, error) {
-	buf, err := partyStack.TroopId.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = partyStack.NumTroops.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = partyStack.NumWoundedTroops.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	return partyStack.Flags.Append(buf)
+func (partyStack *PartyStack) Append(buf []byte) []byte {
+	buf = partyStack.TroopId.Append(buf)
+	buf = partyStack.NumTroops.Append(buf)
+	buf = partyStack.NumWoundedTroops.Append(buf)
+	buf = partyStack.Flags.Append(buf)
+	return buf
 }

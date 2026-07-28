@@ -59,7 +59,6 @@ func (troop *Troop) Read(file *os.File) {
 	troop.AttributePoints.Read(file)
 	troop.ProficiencyPoints.Read(file)
 	troop.Level.Read(file)
-
 	isHero := troop.Flags&heroFlag != 0
 	if isHero || loadRegularTroopInventory {
 		troop.Gold.Read(file)
@@ -84,116 +83,50 @@ func (troop *Troop) Read(file *os.File) {
 	troop.ClassNo.Read(file)
 }
 
-func (troop *Troop) Append(buf []byte) ([]byte, error) {
-	buf, err := troop.NumSlots.Append(buf)
-	if err != nil {
-		return buf, err
-	}
+func (troop *Troop) Append(buf []byte) []byte {
+	buf = troop.NumSlots.Append(buf)
 	for i := 0; i < len(troop.Slots); i++ {
-		buf, err = troop.Slots[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = troop.Slots[i].Append(buf)
 	}
 	for i := 0; i < len(troop.Attributes); i++ {
-		buf, err = troop.Attributes[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = troop.Attributes[i].Append(buf)
 	}
 	for i := 0; i < len(troop.Proficiencies); i++ {
-		buf, err = troop.Proficiencies[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = troop.Proficiencies[i].Append(buf)
 	}
 	for i := 0; i < len(troop.Skills); i++ {
-		buf, err = troop.Skills[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = troop.Skills[i].Append(buf)
 	}
 	for i := 0; i < len(troop.Notes); i++ {
-		buf, err = troop.Notes[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = troop.Notes[i].Append(buf)
 	}
-	buf, err = troop.Flags.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = troop.SiteIdAndEntryNo.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = troop.SkillPoints.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = troop.AttributePoints.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = troop.ProficiencyPoints.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = troop.Level.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-
+	buf = troop.Flags.Append(buf)
+	buf = troop.SiteIdAndEntryNo.Append(buf)
+	buf = troop.SkillPoints.Append(buf)
+	buf = troop.AttributePoints.Append(buf)
+	buf = troop.ProficiencyPoints.Append(buf)
+	buf = troop.Level.Append(buf)
 	isHero := troop.Flags&heroFlag != 0
 	if isHero || loadRegularTroopInventory {
-		buf, err = troop.Gold.Append(buf)
-		if err != nil {
-			return buf, err
-		}
-		buf, err = troop.Experience.Append(buf)
-		if err != nil {
-			return buf, err
-		}
-		buf, err = troop.Health.Append(buf)
-		if err != nil {
-			return buf, err
-		}
-		buf, err = troop.FactionId.Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = troop.Gold.Append(buf)
+		buf = troop.Experience.Append(buf)
+		buf = troop.Health.Append(buf)
+		buf = troop.FactionId.Append(buf)
 		for i := 0; i < len(troop.InventoryItems); i++ {
-			buf, err = troop.InventoryItems[i].Append(buf)
-			if err != nil {
-				return buf, err
-			}
+			buf = troop.InventoryItems[i].Append(buf)
 		}
 		for i := 0; i < len(troop.EquippedItems); i++ {
-			buf, err = troop.EquippedItems[i].Append(buf)
-			if err != nil {
-				return buf, err
-			}
+			buf = troop.EquippedItems[i].Append(buf)
 		}
 		for i := 0; i < len(troop.FaceKeys); i++ {
-			buf, err = troop.FaceKeys[i].Append(buf)
-			if err != nil {
-				return buf, err
-			}
+			buf = troop.FaceKeys[i].Append(buf)
 		}
-		buf, err = troop.Renamed.Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = troop.Renamed.Append(buf)
 		if troop.Renamed {
-			buf, err = troop.Name.Append(buf)
-			if err != nil {
-				return buf, err
-			}
-			buf, err = troop.NamePlural.Append(buf)
-			if err != nil {
-				return buf, err
-			}
+			buf = troop.Name.Append(buf)
+			buf = troop.NamePlural.Append(buf)
 		}
 	}
-	return troop.ClassNo.Append(buf)
+	buf = troop.ClassNo.Append(buf)
+	return buf
 }

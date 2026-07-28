@@ -15,16 +15,10 @@ func (itemKind *ItemKind) Read(file *os.File) {
 	}
 }
 
-func (itemKind *ItemKind) Append(buf []byte) ([]byte, error) {
-	buf, err := itemKind.NumSlots.Append(buf)
-	if err != nil {
-		return buf, err
-	}
+func (itemKind *ItemKind) Append(buf []byte) []byte {
+	buf = itemKind.NumSlots.Append(buf)
 	for i := 0; i < len(itemKind.Slots); i++ {
-		buf, err = itemKind.Slots[i].Append(buf)
-		if err != nil {
-			return buf, err
-		}
+		buf = itemKind.Slots[i].Append(buf)
 	}
-	return buf, err
+	return buf
 }

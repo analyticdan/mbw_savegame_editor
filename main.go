@@ -4,7 +4,6 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -16,10 +15,8 @@ func load(path string) (game Game, err error) {
 		return Game{}, err
 	}
 	defer file.Close()
-
 	game.Read(file)
-
-	return
+	return game, nil
 }
 
 func save(path string, game Game) (err error) {
@@ -28,38 +25,51 @@ func save(path string, game Game) (err error) {
 		return err
 	}
 	defer file.Close()
-
-	buf, err := game.Write()
-	if err != nil {
-		return err
-	}
-
+	buf := game.Write(nil)
 	return binary.Write(file, binary.LittleEndian, buf)
 }
 
 func main() {
-	inPath := "sg05.sav"
-
-	//JsonDebug = true
-
+	inPath := "sg03.sav"
+	JsonDebug = true
 	game, err := load(inPath)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-
-	//ExportToJSON("out.json", game)
-
+	ExportToJSON("out.json", game)
 	err = save("out.sav", game)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-
-	/*game1, err := load("out.sav")
+	game1, err := load("out.sav")
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-
-	ExportToJSON("out1.json", game1)*/
+	ExportToJSON("out1.json", game1)
+	/*game, err := load("sg03.sav")
+	if err != nil {
+		panic(err)
+	}
+	err = save("out3.sav", game)
+	if err != nil {
+		panic(err)
+	}
+	game, err = load("sg04.sav")
+	if err != nil {
+		panic(err)
+	}
+	err = save("out4.sav", game)
+	if err != nil {
+		panic(err)
+	}
+	game, err = load("sg05.sav")
+	if err != nil {
+		panic(err)
+	}
+	err = save("out5.sav", game)
+	if err != nil {
+		panic(err)
+	}*/
 }
 
 func ExportToJSON(path string, game Game) {
@@ -68,7 +78,6 @@ func ExportToJSON(path string, game Game) {
 		panic(err)
 	}
 	defer out.Close()
-
 	encoder := json.NewEncoder(out)
 	encoder.SetIndent("", "    ")
 	err = encoder.Encode(game)

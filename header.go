@@ -28,30 +28,13 @@ func (header *Header) Read(file *os.File) {
 	header.Date.Read(file)
 }
 
-func (header *Header) Append(buf []byte) ([]byte, error) {
-	buf, err := header.MagicNumber.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = header.GameVersion.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = header.ModuleVersion.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = header.SavegameName.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = header.PlayerName.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	buf, err = header.PlayerLevel.Append(buf)
-	if err != nil {
-		return buf, err
-	}
-	return header.Date.Append(buf)
+func (header *Header) Append(buf []byte) []byte {
+	buf = header.MagicNumber.Append(buf)
+	buf = header.GameVersion.Append(buf)
+	buf = header.ModuleVersion.Append(buf)
+	buf = header.SavegameName.Append(buf)
+	buf = header.PlayerName.Append(buf)
+	buf = header.PlayerLevel.Append(buf)
+	buf = header.Date.Append(buf)
+	return buf
 }

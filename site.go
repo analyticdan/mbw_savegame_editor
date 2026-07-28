@@ -15,10 +15,10 @@ func (site *Site) Read(file *os.File) {
 	}
 }
 
-func (site *Site) Append(buf []byte) ([]byte, error) {
-	buf, err := site.NumSlots.Append(buf)
+func (site *Site) Append(buf []byte) []byte {
+	buf = site.NumSlots.Append(buf)
 	for i := 0; i < len(site.Slots); i++ {
-		buf, err = site.Slots[i].Append(buf)
+		buf = site.Slots[i].Append(buf)
 	}
-	return buf, err
+	return buf
 }

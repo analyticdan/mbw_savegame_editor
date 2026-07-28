@@ -18,24 +18,12 @@ func (partyRecord *PartyRecord) Read(file *os.File, gameVersion Int32) {
 	}
 }
 
-func (partyRecord *PartyRecord) Append(buf []byte, gameVersion Int32) ([]byte, error) {
-	buf, err := partyRecord.Valid.Append(buf)
-	if err != nil {
-		return buf, err
-	}
+func (partyRecord *PartyRecord) Append(buf []byte, gameVersion Int32) []byte {
+	buf = partyRecord.Valid.Append(buf)
 	if partyRecord.Valid == 1 {
-		buf, err = partyRecord.RawId.Append(buf)
-		if err != nil {
-			return buf, err
-		}
-		buf, err = partyRecord.Id.Append(buf)
-		if err != nil {
-			return buf, err
-		}
-		buf, err = partyRecord.Party.Append(buf, gameVersion)
-		if err != nil {
-			return buf, err
-		}
+		buf = partyRecord.RawId.Append(buf)
+		buf = partyRecord.Id.Append(buf)
+		buf = partyRecord.Party.Append(buf, gameVersion)
 	}
-	return buf, err
+	return buf
 }
