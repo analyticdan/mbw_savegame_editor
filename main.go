@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/binary"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 )
 
-const JSON_DEBUG = false
+var JSON_DEBUG = false
 
 func load(path string) (game Game, err error) {
 	file, err := os.Open(path)
@@ -39,52 +40,47 @@ func save(path string, game Game) (err error) {
 func main() {
 	inPath := "C:/Users/Daniel/Documents/Mount&Blade Warband Savegames/Vexed Native 1.154/sg04.sav"
 
-	outPath := "out.sav"
+	JSON_DEBUG = true
 
 	game, err := load(inPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if JSON_DEBUG {
-		out, err := os.Create("out.json")
-		if err != nil {
-			panic(err)
-		}
-		defer out.Close()
-		encoder := json.NewEncoder(out)
-		encoder.SetIndent("", "    ")
-		err = encoder.Encode(game)
-		if err != nil {
-			panic(err)
-		}
-	}
+	ExportToJSON("out.json", game)
 
-	err = save(outPath, game)
+	err = save("out.sav", game)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if JSON_DEBUG {
-		game, err := load(inPath)
-		if err != nil {
-			log.Fatal(err)
-		}
-		out, err := os.Create("out1.json")
-		if err != nil {
-			panic(err)
-		}
-		defer out.Close()
-		encoder := json.NewEncoder(out)
-		encoder.SetIndent("", "    ")
-		err = encoder.Encode(game)
-		if err != nil {
-			panic(err)
-		}
+	game1, err := load("out.sav")
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	//bytes, _ := json.MarshalIndent(game.PartyRecords[0].Party.Id, "", "  ")
-	//fmt.Println(string(bytes))
+	ExportToJSON("out1.json", game1)
+}
 
-	//fmt.Println(game.PlayerFaceKeys0, game.PlayerFaceKeys1)
+func ExportToJSON(path string, game Game) {
+	out, err := os.Create(path)
+	if err != nil {
+		panic(err)
+	}
+	defer out.Close()
+
+	encoder := json.NewEncoder(out)
+	encoder.SetIndent("", "    ")
+	err = encoder.Encode(game)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func PrintJSON(gameObject any) {
+	bytes, err := json.MarshalIndent(gameObject, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(bytes))
 }
