@@ -56,7 +56,7 @@ func (i *UInt64) Append(buf []byte) ([]byte, error) {
 func (f *Float) Read(file *os.File) {
 	binary.Read(file, binary.LittleEndian, f)
 	/* TODO: Remove this. */
-	if JSON_DEBUG && math.IsNaN(float64(*f)) {
+	if JsonDebug && math.IsNaN(float64(*f)) {
 		*f = 0
 	}
 }

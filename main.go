@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-var JSON_DEBUG = false
+var JsonDebug = false
 
 func load(path string) (game Game, err error) {
 	file, err := os.Open(path)
@@ -38,28 +38,28 @@ func save(path string, game Game) (err error) {
 }
 
 func main() {
-	inPath := "C:/Users/Daniel/Documents/Mount&Blade Warband Savegames/Vexed Native 1.154/sg04.sav"
+	inPath := "sg05.sav"
 
-	JSON_DEBUG = true
+	//JsonDebug = true
 
 	game, err := load(inPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ExportToJSON("out.json", game)
+	//ExportToJSON("out.json", game)
 
 	err = save("out.sav", game)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	game1, err := load("out.sav")
+	/*game1, err := load("out.sav")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ExportToJSON("out1.json", game1)
+	ExportToJSON("out1.json", game1)*/
 }
 
 func ExportToJSON(path string, game Game) {
