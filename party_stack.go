@@ -15,3 +15,19 @@ func (partyStack *PartyStack) Read(file *os.File) {
 	partyStack.NumWoundedTroops.Read(file)
 	partyStack.Flags.Read(file)
 }
+
+func (partyStack *PartyStack) Append(buf []byte) ([]byte, error) {
+	buf, err := partyStack.TroopId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = partyStack.NumTroops.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = partyStack.NumWoundedTroops.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	return partyStack.Flags.Append(buf)
+}

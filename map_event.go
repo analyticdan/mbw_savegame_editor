@@ -17,7 +17,7 @@ type MapEvent struct {
 	NextBattleSimulation  Float
 }
 
-func (mapEvent MapEvent) Read(file *os.File) {
+func (mapEvent *MapEvent) Read(file *os.File) {
 	mapEvent._unused0.Read(file)
 	mapEvent.Type.Read(file)
 	mapEvent.PositionX.Read(file)
@@ -30,4 +30,52 @@ func (mapEvent MapEvent) Read(file *os.File) {
 	mapEvent.DefenderPartyId.Read(file)
 	mapEvent.BattleSimulationTimer.Read(file)
 	mapEvent.NextBattleSimulation.Read(file)
+}
+
+func (mapEvent *MapEvent) Append(buf []byte) ([]byte, error) {
+	buf, err := mapEvent._unused0.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent.Type.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent.PositionX.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent.PositionY.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent.LandPositionX.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent.LandPositionY.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent._unused1.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent._unused2.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent.AttackerPartyId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent.DefenderPartyId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = mapEvent.BattleSimulationTimer.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	return mapEvent.NextBattleSimulation.Append(buf)
 }

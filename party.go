@@ -131,3 +131,226 @@ func (party *Party) Read(file *os.File, gameVersion Int32) {
 		party.Slots[i].Read(file)
 	}
 }
+
+func (party *Party) Append(buf []byte, gameVersion Int32) ([]byte, error) {
+	buf, err := party.Id.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+
+	buf, err = party.Name.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.Flags.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.MenuId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.PartyTemplateId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.FactionId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.Personality.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.DefaultBehavior.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.CurrentBehavior.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.DefaultBehaviorObjectId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.CurrentBehaviorObjectId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.InitialPositionX.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.InitialPositionY.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.TargetPositionX.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.TargetPositionY.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.PositionX.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.PositionY.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.PositionZ.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+
+	buf, err = party.NumStacks.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	for i := 0; i < len(party.Stacks); i++ {
+		buf, err = party.Stacks[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+
+	buf, err = party.Bearing.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.Renamed.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.ExtraText.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.Morale.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.Hunger.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party._unused1.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.PatrolRadius.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.Initiative.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.Helpfulness.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.LabelVisible.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.BanditAttraction.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	if (gameVersion >= 900 && gameVersion < 1000) || gameVersion >= 1020 {
+		buf, err = party.Marshall.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	buf, err = party.IgnorePlayerTimer.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.BannerMapIconId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	if gameVersion >= 1137 {
+		buf, err = party.ExtraMapIconId.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		buf, err = party.ExtraMapIconUpDownDistance.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		buf, err = party.ExtraMapIconUpDownFrequency.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		buf, err = party.ExtraMapIconRotateFrequency.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		buf, err = party.ExtraMapIconFadeFrequency.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+
+	buf, err = party.AttachedToPartyId.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	if gameVersion >= 1162 {
+		buf, err = party._unused2.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	buf, err = party.IsAttached.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = party.NumAttachedPartyIds.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	for i := 0; i < len(party.AttachedPartyIds); i++ {
+		buf, err = party.AttachedPartyIds[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+
+	buf, err = party.NumParticleSystemIds.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	for i := 0; i < len(party.ParticleSystemIds); i++ {
+		buf, err = party.ParticleSystemIds[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+
+	for i := 0; i < len(party.Notes); i++ {
+		buf, err = party.Notes[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+
+	buf, err = party.NumSlots.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	for i := 0; i < len(party.Slots); i++ {
+		buf, err = party.Slots[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	return buf, err
+}

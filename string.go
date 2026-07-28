@@ -17,3 +17,11 @@ func (s *String) Read(file *os.File) {
 	binary.Read(file, binary.LittleEndian, &s.Chars)
 	s.Readable = string(s.Chars)
 }
+
+func (s *String) Append(buf []byte) ([]byte, error) {
+	buf, err := s.NumChars.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	return binary.Append(buf, binary.LittleEndian, &s.Chars)
+}

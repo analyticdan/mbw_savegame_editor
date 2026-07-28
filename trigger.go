@@ -15,3 +15,19 @@ func (trigger *Trigger) Read(file *os.File) {
 	trigger.DelayTimer.Read(file)
 	trigger.RearmTimer.Read(file)
 }
+
+func (trigger *Trigger) Append(buf []byte) ([]byte, error) {
+	buf, err := trigger.Status.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = trigger.CheckTimer.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = trigger.DelayTimer.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	return trigger.RearmTimer.Append(buf)
+}

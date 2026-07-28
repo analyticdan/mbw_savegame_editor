@@ -30,3 +30,45 @@ func (faction *Faction) Read(file *os.File) {
 		faction.Notes[i].Read(file)
 	}
 }
+
+func (faction *Faction) Append(buf []byte) ([]byte, error) {
+	buf, err := faction.NumSlots.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	for i := 0; i < len(faction.Slots); i++ {
+		buf, err = faction.Slots[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	for i := 0; i < len(faction.Relations); i++ {
+		buf, err = faction.Relations[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	buf, err = faction.Name.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = faction.Renamed.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = faction.Color.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = faction._unused.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	for i := 0; i < len(faction.Notes); i++ {
+		buf, err = faction.Notes[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	return buf, err
+}

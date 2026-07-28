@@ -28,6 +28,13 @@ type Troop struct {
 	ClassNo           Int32
 }
 
+const (
+	/*TODO: Maybe move this to its own file with the other tf_flags. */
+	heroFlag = UInt64(0x00000010)
+	/*TODO: This should be obtained from module.ini. */
+	loadRegularTroopInventory = false
+)
+
 func (troop *Troop) Read(file *os.File) {
 	troop.NumSlots.Read(file)
 	troop.Slots = make([]Int64, troop.NumSlots)
@@ -53,11 +60,7 @@ func (troop *Troop) Read(file *os.File) {
 	troop.ProficiencyPoints.Read(file)
 	troop.Level.Read(file)
 
-	/*TODO: Clean up this hardcoded variable.*/
-	heroFlag := UInt64(0x00000010)
 	isHero := troop.Flags&heroFlag != 0
-	/*TODO: This variable should be obtained from module.ini. */
-	loadRegularTroopInventory := false
 	if isHero || loadRegularTroopInventory {
 		troop.Gold.Read(file)
 		troop.Experience.Read(file)
@@ -79,4 +82,118 @@ func (troop *Troop) Read(file *os.File) {
 		}
 	}
 	troop.ClassNo.Read(file)
+}
+
+func (troop *Troop) Append(buf []byte) ([]byte, error) {
+	buf, err := troop.NumSlots.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	for i := 0; i < len(troop.Slots); i++ {
+		buf, err = troop.Slots[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	for i := 0; i < len(troop.Attributes); i++ {
+		buf, err = troop.Attributes[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	for i := 0; i < len(troop.Proficiencies); i++ {
+		buf, err = troop.Proficiencies[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	for i := 0; i < len(troop.Skills); i++ {
+		buf, err = troop.Skills[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	for i := 0; i < len(troop.Notes); i++ {
+		buf, err = troop.Notes[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	buf, err = troop.Flags.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = troop.SiteIdAndEntryNo.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = troop.SkillPoints.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = troop.AttributePoints.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = troop.ProficiencyPoints.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = troop.Level.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+
+	isHero := troop.Flags&heroFlag != 0
+	if isHero || loadRegularTroopInventory {
+		buf, err = troop.Gold.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		buf, err = troop.Experience.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		buf, err = troop.Health.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		buf, err = troop.FactionId.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		for i := 0; i < len(troop.InventoryItems); i++ {
+			buf, err = troop.InventoryItems[i].Append(buf)
+			if err != nil {
+				return buf, err
+			}
+		}
+		for i := 0; i < len(troop.EquippedItems); i++ {
+			buf, err = troop.EquippedItems[i].Append(buf)
+			if err != nil {
+				return buf, err
+			}
+		}
+		for i := 0; i < len(troop.FaceKeys); i++ {
+			buf, err = troop.FaceKeys[i].Append(buf)
+			if err != nil {
+				return buf, err
+			}
+		}
+		buf, err = troop.Renamed.Append(buf)
+		if err != nil {
+			return buf, err
+		}
+		if troop.Renamed {
+			buf, err = troop.Name.Append(buf)
+			if err != nil {
+				return buf, err
+			}
+			buf, err = troop.NamePlural.Append(buf)
+			if err != nil {
+				return buf, err
+			}
+		}
+	}
+	return troop.ClassNo.Append(buf)
 }

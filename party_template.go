@@ -20,3 +20,29 @@ func (partyTemplate *PartyTemplate) Read(file *os.File) {
 		partyTemplate.Slots[i].Read(file)
 	}
 }
+
+func (partyTemplate *PartyTemplate) Append(buf []byte) ([]byte, error) {
+	buf, err := partyTemplate.NumPartiesCreated.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = partyTemplate.NumPartiesDestroyed.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = partyTemplate.NumPartiesDestroyedByPlayer.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	buf, err = partyTemplate.NumSlots.Append(buf)
+	if err != nil {
+		return buf, err
+	}
+	for i := 0; i < len(partyTemplate.Slots); i++ {
+		buf, err = partyTemplate.Slots[i].Append(buf)
+		if err != nil {
+			return buf, err
+		}
+	}
+	return buf, err
+}

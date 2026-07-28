@@ -1,6 +1,8 @@
 package main
 
-import "os"
+import (
+	"os"
+)
 
 type Game struct {
 	Header                         Header
@@ -193,11 +195,9 @@ func (game *Game) Read(file *os.File) {
 
 	game.PlayerPartyStackAdditionalInfo = make([]PlayerPartyStack, len(game.PartyRecords[0].Party.Stacks))
 	for i := 0; i < len(game.PartyRecords[0].Party.Stacks); i++ {
-		game.PlayerPartyStackAdditionalInfo[i].I = i
-		troopId := game.PartyRecords[0].Party.Stacks[i].TroopId
-
 		/*TODO: Read in troop.txt module data to get true value of isHero.
 		Below check uses a hard-coded value based on Native.*/
+		troopId := game.PartyRecords[0].Party.Stacks[i].TroopId
 		isHero := troopId == 0 || (troopId >= 194 && troopId < 463)
 
 		if isHero {
@@ -237,4 +237,144 @@ func (game *Game) Read(file *os.File) {
 	game.PlayerWoundedCount.Read(file)
 	game.PlayerOwnTroopKillCount.Read(file)
 	game.PlayerOwnTroopWoundedCount.Read(file)
+}
+
+func (game *Game) Write() (buf []byte, err error) {
+	buf = nil
+	buf, err = game.Header.Append(buf)
+	buf, err = game.GameTime.Append(buf)
+	buf, err = game.RandomSeed.Append(buf)
+	buf, err = game.SaveMode.Append(buf)
+	if game.Header.GameVersion >= 1137 {
+		buf, err = game.CombatDifficulty.Append(buf)
+		buf, err = game.CombatDifficultyFriendlies.Append(buf)
+		buf, err = game.ReduceCombatAi.Append(buf)
+		buf, err = game.ReduceCampaignAi.Append(buf)
+		buf, err = game.CombatSpeed.Append(buf)
+	}
+	buf, err = game.DateTimer.Append(buf)
+	buf, err = game.Hour.Append(buf)
+	buf, err = game.Day.Append(buf)
+	buf, err = game.Week.Append(buf)
+	buf, err = game.Month.Append(buf)
+	buf, err = game.Year.Append(buf)
+	buf, err = game._unused0.Append(buf)
+	buf, err = game.GlobalCloudAmount.Append(buf)
+	buf, err = game.GlobalHazeAmount.Append(buf)
+	buf, err = game.AverageDifficulty.Append(buf)
+	buf, err = game.AverageDifficultyPeriod.Append(buf)
+	buf, err = game._unused1.Append(buf)
+	buf, err = game._unused2.Append(buf)
+	buf, err = game.TutorialFlags.Append(buf)
+	buf, err = game.DefaultPrisonerPrice.Append(buf)
+	buf, err = game.EncounteredParty1Id.Append(buf)
+	buf, err = game.EncounteredParty2Id.Append(buf)
+	buf, err = game.CurrentMenuId.Append(buf)
+	buf, err = game.CurrentSiteId.Append(buf)
+	buf, err = game.CurrentEntryNo.Append(buf)
+	buf, err = game.CurrentMissionTemplateId.Append(buf)
+	buf, err = game.PartyCreationMinRandomValue.Append(buf)
+	buf, err = game.PartyCreationMaxRandomValue.Append(buf)
+	buf, err = game.GameLog.Append(buf)
+	for i := range len(game._unused3) {
+		buf, err = game._unused3[i].Append(buf)
+	}
+	buf, err = game._unused4.Append(buf)
+	buf, err = game.RestPeriod.Append(buf)
+	buf, err = game.RestTimeSpeed.Append(buf)
+	buf, err = game.RestIsInteractive.Append(buf)
+	buf, err = game.RestRemainAttackable.Append(buf)
+	for i := range len(game.ClassNames) {
+		buf, err = game.ClassNames[i].Append(buf)
+	}
+
+	buf, err = game.NumGlobalVariables.Append(buf)
+	for i := range len(game.GlobalVariables) {
+		buf, err = game.GlobalVariables[i].Append(buf)
+	}
+
+	buf, err = game.NumTriggers.Append(buf)
+	for i := 0; i < len(game.Triggers); i++ {
+		buf, err = game.Triggers[i].Append(buf)
+	}
+
+	buf, err = game.NumSimpleTriggers.Append(buf)
+	for i := 0; i < len(game.SimpleTriggers); i++ {
+		buf, err = game.SimpleTriggers[i].Append(buf)
+	}
+
+	buf, err = game.NumQuests.Append(buf)
+	for i := 0; i < len(game.Quests); i++ {
+		buf, err = game.Quests[i].Append(buf)
+	}
+
+	buf, err = game.NumInfoPages.Append(buf)
+	for i := 0; i < len(game.InfoPages); i++ {
+		buf, err = game.InfoPages[i].Append(buf)
+	}
+
+	buf, err = game.NumSites.Append(buf)
+	for i := 0; i < len(game.Sites); i++ {
+		buf, err = game.Sites[i].Append(buf)
+	}
+
+	buf, err = game.NumFactions.Append(buf)
+	for i := 0; i < len(game.Factions); i++ {
+		buf, err = game.Factions[i].Append(buf)
+	}
+
+	buf, err = game.NumMapTracks.Append(buf)
+	for i := 0; i < len(game.MapTracks); i++ {
+		buf, err = game.MapTracks[i].Append(buf)
+	}
+
+	buf, err = game.NumPartyTemplates.Append(buf)
+	for i := 0; i < len(game.PartyTemplates); i++ {
+		buf, err = game.PartyTemplates[i].Append(buf)
+	}
+
+	buf, err = game.NumPartyRecords.Append(buf)
+	buf, err = game.NumPartiesCreated.Append(buf)
+	for i := 0; i < len(game.PartyRecords); i++ {
+		buf, err = game.PartyRecords[i].Append(buf, game.Header.GameVersion)
+	}
+
+	for i := 0; i < len(game.PartyRecords[0].Party.Stacks); i++ {
+		//TODO: Read in troop.txt module data to get true value of isHero.
+		//Below check uses a hard-coded value based on Native.
+		troopId := game.PartyRecords[0].Party.Stacks[i].TroopId
+		isHero := troopId == 0 || (troopId >= 194 && troopId < 463)
+
+		if !isHero {
+			buf, err = game.PlayerPartyStackAdditionalInfo[i].Append(buf, i)
+		}
+	}
+
+	buf, err = game.NumMapEventRecords.Append(buf)
+	buf, err = game.NumMapEventsCreated.Append(buf)
+	for i := 0; i < len(game.MapEventRecords); i++ {
+		buf, err = game.MapEventRecords[i].Append(buf)
+	}
+
+	buf, err = game.NumTroops.Append(buf)
+	for i := 0; i < len(game.Troops); i++ {
+		buf, err = game.Troops[i].Append(buf)
+	}
+
+	for i := 0; i < len(game._unused5); i++ {
+		buf, err = game._unused5[i].Append(buf)
+	}
+
+	buf, err = game.NumItemKinds.Append(buf)
+	for i := 0; i < len(game.ItemKinds); i++ {
+		buf, err = game.ItemKinds[i].Append(buf)
+	}
+
+	buf, err = game.PlayerFaceKeys0.Append(buf)
+	buf, err = game.PlayerFaceKeys1.Append(buf)
+	buf, err = game.PlayerKillCount.Append(buf)
+	buf, err = game.PlayerWoundedCount.Append(buf)
+	buf, err = game.PlayerOwnTroopKillCount.Append(buf)
+	buf, err = game.PlayerOwnTroopWoundedCount.Append(buf)
+	return
 }
