@@ -26,3 +26,8 @@ func (s *String) Append(buf []byte) []byte {
 	}
 	return buf
 }
+
+// Internal: use readable string when printing.
+func (s String) String() string {
+	return string(s.Chars)
+}
