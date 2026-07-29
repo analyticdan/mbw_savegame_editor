@@ -18,18 +18,18 @@ func TestCompareData(t *testing.T) {
 	DisableNaN = true
 	game, err := load(inPath)
 	if err != nil {
-		t.Errorf(`Could not load from: %q due to error:\n%s`, inPath, err)
+		t.Errorf("Could not load from: %s due to error:\n%s", inPath, err)
 	}
 	err = save(outPath, game)
 	if err != nil {
-		t.Errorf(`Could not save to: %q due to error:\n%s`, outPath, err)
+		t.Errorf("Could not save to: %s due to error:\n%s", outPath, err)
 	}
 	game1, err := load(outPath)
 	if err != nil {
-		t.Errorf(`Could not load from: %q due to error:\n%s`, outPath, err)
+		t.Errorf("Could not load from: %s due to error:\n%s", outPath, err)
 	}
 	if !reflect.DeepEqual(game, game1) {
-		t.Errorf(`%q's data was different after saving and reloading`, inPath)
+		t.Errorf("%s's data was different after saving and reloading", inPath)
 	}
 }
 
@@ -37,22 +37,22 @@ func TestCompareSaveFiles(t *testing.T) {
 	DisableNaN = false
 	game, err := load(inPath)
 	if err != nil {
-		t.Errorf(`Could not load from: %q due to error:\n%s`, inPath, err)
+		t.Errorf("Could not load from: %s due to error:\n%s", inPath, err)
 	}
 	err = save(outPath, game)
 	if err != nil {
-		t.Errorf(`Could not save to: %q due to error:\n%s`, outPath, err)
+		t.Errorf("Could not save to: %s due to error:\n%s", outPath, err)
 	}
 	h1, err := hashFile(inPath)
 	if err != nil {
-		t.Errorf(`Could not hash %q due to error:\n%s`, outPath, err)
+		t.Errorf("Could not hash %s due to error:\n%s", outPath, err)
 	}
 	h2, err := hashFile(outPath)
 	if err != nil {
-		t.Errorf(`Could not hash %q due to error:\n%s`, outPath, err)
+		t.Errorf("Could not hash %s due to error:\n%s", outPath, err)
 	}
 	if !bytes.Equal(h1, h2) {
-		t.Errorf(`%q's hash was different after loading and saving`, inPath)
+		t.Errorf("%s's hash was different after loading and saving", inPath)
 	}
 }
 
