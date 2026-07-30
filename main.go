@@ -21,7 +21,7 @@ func load(path string) (game Game, err error) {
 	return game, nil
 }
 
-func save(path string, game Game) (err error) {
+func save(game Game, path string) (err error) {
 	file, err := os.Create(path)
 	if err != nil {
 		return err
@@ -125,7 +125,27 @@ func printFortificationsByGarrisonSize(game Game, factionId int) {
 	fmt.Println("---")
 }
 
-func ExportToJson(path string, game Game) {
+func unequipItems(game Game, equipmentSlot int, inventOffset int) {
+	// Use order of proficiencies above to ensure the best characters get the first items.
+	heroIds := []int{197, 199, 203, 202, 207, 201, 198, 200, 206, 208, 209, 204, 194, 195, 205, 196, 0}
+
+	for i, heroId := range heroIds {
+		game.Troops[0].InventoryItems[inventOffset+i] = game.Troops[heroId].EquippedItems[equipmentSlot]
+		game.Troops[heroId].EquippedItems[equipmentSlot].ItemKindId = -1
+	}
+}
+
+func equipItems(game Game, equipmentSlot int, inventOffset int) {
+	// Use order of proficiencies above to ensure the best characters get the first items.
+	heroIds := []int{197, 199, 203, 202, 207, 201, 198, 200, 206, 208, 209, 204, 194, 195, 205, 196, 0}
+
+	for i, heroId := range heroIds {
+		game.Troops[heroId].EquippedItems[equipmentSlot] = game.Troops[0].InventoryItems[inventOffset+i]
+		game.Troops[0].InventoryItems[inventOffset+i].ItemKindId = -1
+	}
+}
+
+func ExportToJson(game Game, path string) {
 	out, err := os.Create(path)
 	if err != nil {
 		panic(err)
