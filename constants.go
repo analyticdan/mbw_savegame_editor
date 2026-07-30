@@ -1,73 +1,6 @@
 package main
 
 const (
-	None = iota
-	Martial
-	Quarrelsome
-	SelfRighteous
-	Cunning
-	Debauched
-	GoodNatured
-	Upstanding
-	Rougish
-	Benefactor
-	Custodian
-	_
-	_
-	_
-	_
-	_
-	_
-	_
-	_
-	_
-	_
-	Conventional
-	Adventurous
-	Otherworldly
-	Ambitious
-	Moralist
-)
-
-const (
-	Borcha = 194 + iota
-	Marnid
-	Ymira
-	Rolf
-	Baheshtur
-	Firentis
-	Deshavi
-	Matheld
-	Alayen
-	Bunduk
-	Katrin
-	Jeremus
-	Nizar
-	Lezalit
-	Artimenner
-	Klethi
-)
-
-var Companions = map[int]string{
-	Borcha:     "Borcha",
-	Marnid:     "Marnid",
-	Ymira:      "Ymira",
-	Rolf:       "Rolf",
-	Baheshtur:  "Baheshtur",
-	Firentis:   "Firentis",
-	Deshavi:    "Deshavi",
-	Matheld:    "Matheld",
-	Alayen:     "Alayen",
-	Bunduk:     "Bunduk",
-	Katrin:     "Katrin",
-	Jeremus:    "Jeremus",
-	Nizar:      "Nizar",
-	Lezalit:    "Lezalit",
-	Artimenner: "Artimenner",
-	Klethi:     "Klethi",
-}
-
-const (
 	Sargoth = 21 + iota
 	Tihr
 	Veluca
@@ -92,7 +25,8 @@ const (
 	Bariyye
 )
 
-var TownIds = []int{Sargoth,
+var TownIds = []int{
+	Sargoth,
 	Tihr,
 	Veluca,
 	Suno,
@@ -113,7 +47,8 @@ var TownIds = []int{Sargoth,
 	Shariz,
 	Durquba,
 	Ahmerrad,
-	Bariyye}
+	Bariyye,
+}
 
 const (
 	CulmarrCastle = 43 + iota
@@ -442,3 +377,129 @@ var VillageIds = []int{
 	Tilimsal,
 	Rushdigh,
 }
+
+const (
+	Borcha = 194 + iota
+	Marnid
+	Ymira
+	Rolf
+	Baheshtur
+	Firentis
+	Deshavi
+	Matheld
+	Alayen
+	Bunduk
+	Katrin
+	Jeremus
+	Nizar
+	Lezalit
+	Artimenner
+	Klethi
+)
+
+var CompanionIds = []int{
+	Borcha,
+	Marnid,
+	Ymira,
+	Rolf,
+	Baheshtur,
+	Firentis,
+	Deshavi,
+	Matheld,
+	Alayen,
+	Bunduk,
+	Katrin,
+	Jeremus,
+	Nizar,
+	Lezalit,
+	Artimenner,
+	Klethi,
+}
+
+var CompanionsNameMap = map[int]string{
+	Borcha:     "Borcha",
+	Marnid:     "Marnid",
+	Ymira:      "Ymira",
+	Rolf:       "Rolf",
+	Baheshtur:  "Baheshtur",
+	Firentis:   "Firentis",
+	Deshavi:    "Deshavi",
+	Matheld:    "Matheld",
+	Alayen:     "Alayen",
+	Bunduk:     "Bunduk",
+	Katrin:     "Katrin",
+	Jeremus:    "Jeremus",
+	Nizar:      "Nizar",
+	Lezalit:    "Lezalit",
+	Artimenner: "Artimenner",
+	Klethi:     "Klethi",
+}
+
+const (
+	// See ek_.* in header_items.py
+	EquippedItem0 = iota
+	EquippedItem1
+	EquippedItem2
+	EquippedItem3
+	EquippedHead
+	EquippedBody
+	EquippedFoot
+	EquippedGloves
+	EquippedHorse
+)
+
+const (
+	// See fac_.* in ID_factions.py
+	NoFaction = iota
+	Commoners
+	Outlaws
+	Neutral
+	Innocents
+	Merchants
+	_DarkKnights
+	_Culture1
+	_Culture2
+	_Culture3
+	_Culture4
+	_Culture5
+	_Culture6
+	PlayerFaction
+	PlayersSupporters
+	KingdomOfSwadia
+	KingdomOfVaegirs
+	KhergitKhanate
+	KingdomOfNords
+	KingdomOfRhodoks
+	SarranidSultanate
+	_KingdomsEnd
+	_RobberKnights
+	_Khergits
+	_BlackKhergits
+	Manhunters
+	Deserters
+	MountainBandits
+	ForestBandits
+	_Undeads
+	_Slavers
+	_PeasantRebels
+	_NobleRefugees
+)
+
+const (
+	// See slot_village_state, svs_.* in module_constants.py
+	VillageNormal = iota
+	VillageBeingRaided
+	VillageLooted
+)
+
+const (
+	// See lrep_.* in module_constants.py
+	None = iota
+	Martial
+	Quarrelsome
+	SelfRighteous
+	Cunning
+	Debauched
+	GoodNatured
+	Upstanding
+)
