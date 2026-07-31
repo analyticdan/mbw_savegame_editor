@@ -16,10 +16,10 @@ func main() {
 
 	//printCompanionsByPolearmProficiency(game)
 	//printCompanionLocations(game)
-	printNegativeReputationFiefs(game)
+	//printNegativeReputationFiefs(game)
 	printVillagesInfestedByBandits(game)
 	printFortificationsByGarrisonSize(game, KhergitKhanate)
-
+	printFortificationsByGarrisonSize(game, SarranidSultanate)
 }
 
 func printNegativeReputationFiefs(game Game) {
@@ -97,7 +97,7 @@ func printFortificationsByGarrisonSize(game Game, factionId int) {
 		if factionId == int(fortification.FactionId) {
 			var ladderString string
 			if isFortificationSiegedWithLadders(fortification) {
-				ladderString = " (ladder) "
+				ladderString = " (ladder)"
 			}
 			fmt.Printf("%s%s: %d troops\n", fortification.Name, ladderString, getGarrisonSize(fortification))
 		}
