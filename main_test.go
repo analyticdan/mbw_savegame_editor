@@ -20,7 +20,7 @@ func TestCompareData(t *testing.T) {
 	if err != nil {
 		t.Errorf("Could not load from: %s due to error:\n%s", inPath, err)
 	}
-	err = save(outPath, game)
+	err = save(game, outPath)
 	if err != nil {
 		t.Errorf("Could not save to: %s due to error:\n%s", outPath, err)
 	}
@@ -39,7 +39,7 @@ func TestCompareSaveFiles(t *testing.T) {
 	if err != nil {
 		t.Errorf("Could not load from: %s due to error:\n%s", inPath, err)
 	}
-	err = save(outPath, game)
+	err = save(game, outPath)
 	if err != nil {
 		t.Errorf("Could not save to: %s due to error:\n%s", outPath, err)
 	}
