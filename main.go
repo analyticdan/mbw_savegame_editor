@@ -2,10 +2,8 @@ package main
 
 import (
 	"cmp"
-	"encoding/json"
 	"fmt"
 	. "mbw-savegame-editor/savegame/savegame"
-	"os"
 	"slices"
 )
 
@@ -125,26 +123,4 @@ func equipCompanionItems(game Game, equipmentSlot int, inventOffset int) {
 		game.Troops[heroId].EquippedItems[equipmentSlot] = game.Troops[0].InventoryItems[inventOffset+i]
 		game.Troops[0].InventoryItems[inventOffset+i].ItemKindId = -1
 	}
-}
-
-func ExportToJson(game Game, path string) {
-	out, err := os.Create(path)
-	if err != nil {
-		panic(err)
-	}
-	defer out.Close()
-	encoder := json.NewEncoder(out)
-	encoder.SetIndent("", "    ")
-	err = encoder.Encode(game)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func PrintJson(gameObject any) {
-	bytes, err := json.MarshalIndent(gameObject, "", "  ")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(string(bytes))
 }
