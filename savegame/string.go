@@ -1,4 +1,4 @@
-package main
+package savegame
 
 import (
 	"encoding/binary"

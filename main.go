@@ -2,47 +2,26 @@ package main
 
 import (
 	"cmp"
-	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	. "mbw-savegame-editor/savegame/savegame"
 	"os"
 	"slices"
 )
 
-var DisableNaN = false
-
-func load(path string) (game Game, err error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return Game{}, err
-	}
-	defer file.Close()
-	game.Read(file)
-	return game, nil
-}
-
-func save(game Game, path string) (err error) {
-	file, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	buf := game.Write(nil)
-	return binary.Write(file, binary.LittleEndian, buf)
-}
-
 func main() {
 	inPath := "C:/Users/Daniel/Documents/Mount&Blade Warband Savegames/Vexed Native 1.154/sg06.sav"
-	game, err := load(inPath)
+	game, err := Load(inPath)
 	if err != nil {
 		panic(err)
 	}
 
+	//printCompanionsByPolearmProficiency(game)
+	//printCompanionLocations(game)
 	printNegativeReputationFiefs(game)
-	printCompanionLocations(game)
 	printVillagesInfestedByBandits(game)
 	printFortificationsByGarrisonSize(game, KhergitKhanate)
-	printCompanionsByProficiencies(game)
+
 }
 
 func printNegativeReputationFiefs(game Game) {
@@ -52,7 +31,7 @@ func printNegativeReputationFiefs(game Game) {
 			if isVillage(fief) {
 				fortification := getVillageFortification(game, fief)
 				market := getVillageMarket(game, fief)
-				fmt.Printf("%s (fortification: %s, market: %s), Reputation: %d\n", fief.Name, &fortification.Name, market.Name, reputation)
+				fmt.Printf("%s (fortification: %s, market: %s), reputation: %d\n", fief.Name, &fortification.Name, market.Name, reputation)
 			} else {
 				fmt.Printf("%s; reputation: %d\n", fief.Name, reputation)
 			}
@@ -62,11 +41,10 @@ func printNegativeReputationFiefs(game Game) {
 }
 
 func printCompanionLocations(game Game) {
-	fmt.Println("Companion locations (does not include imprisoned companions or companions on a mission): ")
+	fmt.Println("Companion locations (does not include imprisoned companions or companions on a mission):")
 	for _, companionId := range CompanionIds {
 		companion := getTroop(game, companionId)
-		locationId := getLocationId(companion)
-		if locationId != -1 {
+		if locationId := getTroopLocationId(companion); locationId != -1 {
 			location := getFief(game, locationId)
 			fmt.Printf("%s: %s\n", CompanionsNameMap[companionId], location.Name)
 		}
@@ -74,10 +52,9 @@ func printCompanionLocations(game Game) {
 	fmt.Println("---")
 }
 
-func printCompanionsByProficiencies(game Game) {
-	fmt.Println("Companions by proficiencies: ")
+func printCompanionsByPolearmProficiency(game Game) {
+	fmt.Println("Companions by proficiencies:")
 	companionIds := CompanionIds
-	// Use polearm because I never level it.
 	getPolearmProficiencies := func(troop Troop) Float {
 		return troop.Proficiencies[2]
 	}
@@ -118,16 +95,21 @@ func printFortificationsByGarrisonSize(game Game, factionId int) {
 		return cmp.Compare(getGarrisonSize(a), getGarrisonSize(b))
 	})
 	for _, fortification := range fortifications {
+
 		if factionId == int(fortification.FactionId) {
-			fmt.Printf("%s: %d troops\n", fortification.Name, getGarrisonSize(fortification))
+			var ladderString string
+			if isFortificationSiegedWithLadders(fortification) {
+				ladderString = " (ladder) "
+			}
+			fmt.Printf("%s%s: %d troops\n", fortification.Name, ladderString, getGarrisonSize(fortification))
 		}
 	}
 	fmt.Println("---")
 }
 
-func unequipItems(game Game, equipmentSlot int, inventOffset int) {
+func unequipCompanionItems(game Game, equipmentSlot int, inventOffset int) {
 	// Use order of proficiencies above to ensure the best characters get the first items.
-	heroIds := []int{197, 199, 203, 202, 207, 201, 198, 200, 206, 208, 209, 204, 194, 195, 205, 196, 0}
+	heroIds := []int{197, 199, 203, 202, 207, 201, 198, 200, 206, 208, 209, 204, 194, 195, 205, 196}
 
 	for i, heroId := range heroIds {
 		game.Troops[0].InventoryItems[inventOffset+i] = game.Troops[heroId].EquippedItems[equipmentSlot]
@@ -135,9 +117,9 @@ func unequipItems(game Game, equipmentSlot int, inventOffset int) {
 	}
 }
 
-func equipItems(game Game, equipmentSlot int, inventOffset int) {
+func equipCompanionItems(game Game, equipmentSlot int, inventOffset int) {
 	// Use order of proficiencies above to ensure the best characters get the first items.
-	heroIds := []int{197, 199, 203, 202, 207, 201, 198, 200, 206, 208, 209, 204, 194, 195, 205, 196, 0}
+	heroIds := []int{197, 199, 203, 202, 207, 201, 198, 200, 206, 208, 209, 204, 194, 195, 205, 196}
 
 	for i, heroId := range heroIds {
 		game.Troops[heroId].EquippedItems[equipmentSlot] = game.Troops[0].InventoryItems[inventOffset+i]

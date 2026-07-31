@@ -1,5 +1,12 @@
 Mount and Blade Warband Savegame Editor
 
-Based on M&B Warband Modding Wiki (see: http://mbmodwiki.ollclan.eu/, http://mbmodwiki.ollclan.eu/Savegame; archive: https://mbmodwiki.github.io/Savegame).
+Based on information from M&B Warband Modding Wiki[1] and Mount and Blade Warband Module System[2][3].
 
-See also Mount and Blade Warband Module System for constants. (Forum thread to official version: https://forums.taleworlds.com/index.php?threads/warband-modders-download-repository.326973/, forum thread to community version: https://forums.taleworlds.com/index.php?threads/warband-module-system-1-166-with-tweaks-and-giggles.324874/ .)
+[1] http://mbmodwiki.ollclan.eu/, http://mbmodwiki.ollclan.eu/Savegame; archive: https://mbmodwiki.github.io/Savegame
+
+[2] https://forums.taleworlds.com/index.php?threads/warband-modders-download-repository.326973/,
+
+[3] Community version (with annotations): https://forums.taleworlds.com/index.php?threads/warband-module-system-1-166-with-tweaks-and-giggles.324874/
+
+The `savegame` package can be considered a standalone package providing loading and saving functionality, as well as an AST (abstract syntax tree) format for the savegame format.
+The `main` package will be used by me, the repository owner, to implement certain non-standard features. Feel free to use it as an example.

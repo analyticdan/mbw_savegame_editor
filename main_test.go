@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"io"
+	"mbw-savegame-editor/savegame/savegame"
 	"os"
 	"reflect"
 	"testing"
@@ -15,16 +16,16 @@ const (
 )
 
 func TestCompareData(t *testing.T) {
-	DisableNaN = true
-	game, err := load(inPath)
+	savegame.DisableNaN = true
+	game, err := savegame.Load(inPath)
 	if err != nil {
 		t.Errorf("Could not load from: %s due to error:\n%s", inPath, err)
 	}
-	err = save(game, outPath)
+	err = savegame.Save(game, outPath)
 	if err != nil {
 		t.Errorf("Could not save to: %s due to error:\n%s", outPath, err)
 	}
-	game1, err := load(outPath)
+	game1, err := savegame.Load(outPath)
 	if err != nil {
 		t.Errorf("Could not load from: %s due to error:\n%s", outPath, err)
 	}
@@ -34,12 +35,12 @@ func TestCompareData(t *testing.T) {
 }
 
 func TestCompareSaveFiles(t *testing.T) {
-	DisableNaN = false
-	game, err := load(inPath)
+	savegame.DisableNaN = false
+	game, err := savegame.Load(inPath)
 	if err != nil {
 		t.Errorf("Could not load from: %s due to error:\n%s", inPath, err)
 	}
-	err = save(game, outPath)
+	err = savegame.Save(game, outPath)
 	if err != nil {
 		t.Errorf("Could not save to: %s due to error:\n%s", outPath, err)
 	}

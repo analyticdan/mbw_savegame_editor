@@ -1,4 +1,4 @@
-package main
+package savegame
 
 import (
 	"encoding/binary"
@@ -12,6 +12,9 @@ type Int64 int64
 type UInt32 uint32
 type UInt64 uint64
 type Float float32
+
+/* For debugging purposes, as NaN cannot be compared or turned into JSON. */
+var DisableNaN bool
 
 func (b *Bool) Read(file *os.File) {
 	err := binary.Read(file, binary.LittleEndian, b)
@@ -93,7 +96,6 @@ func (f *Float) Read(file *os.File) {
 	if err != nil {
 		panic(err)
 	}
-	/* For debugging purposes, as NaN cannot be compared or turned into JSON. */
 	if DisableNaN && math.IsNaN(float64(*f)) {
 		*f = 0
 	}

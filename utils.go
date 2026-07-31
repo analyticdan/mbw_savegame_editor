@@ -1,6 +1,9 @@
 package main
 
-import "slices"
+import (
+	. "mbw-savegame-editor/savegame/savegame"
+	"slices"
+)
 
 func getFief(game Game, fiefId int) Party {
 	return game.PartyRecords[fiefId].Party
@@ -38,6 +41,10 @@ func getFiefReputation(fief Party) int {
 	return int(fief.Slots[26])
 }
 
+func getFiefOriginalFactionId(fief Party) int {
+	return int(fief.Slots[61])
+}
+
 func isVillage(party Party) bool {
 	return party.Slots[0] == 4
 }
@@ -58,6 +65,17 @@ func getVillageMarket(game Game, village Party) Party {
 	return getFief(game, int(village.Slots[121]))
 }
 
+func hasTownEnterprise(town Party) bool {
+	// cf. center_player_enterprise module_constants.py
+	return town.Slots[137] != 0
+
+}
+
+func isFortificationSiegedWithLadders(fortification Party) bool {
+	// cf. slot_center_siege_with_belfry in module_constants.py
+	return fortification.Slots[27] == 0
+}
+
 func getGarrisonSize(party Party) int {
 	size := 0
 	for _, stack := range party.Stacks {
@@ -72,7 +90,11 @@ func getTroop(game Game, troopId int) Troop {
 	return game.Troops[troopId]
 }
 
-func getLocationId(troop Troop) int {
+func getTroopRenown(troop Troop) int {
+	return int(troop.Slots[7])
+}
+
+func getTroopLocationId(troop Troop) int {
 	return int(troop.Slots[12])
 }
 
@@ -81,4 +103,3 @@ func getFaction(game Game, factionId int) Faction {
 }
 
 //Lord reputation = Troop.Slots[52]
-//Lord renown = Troop.Slots[7]
