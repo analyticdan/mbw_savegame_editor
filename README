@@ -8,5 +8,6 @@ Based on information from M&B Warband Modding Wiki[1] and Mount and Blade Warban
 
 [3] Community version (with annotations): https://forums.taleworlds.com/index.php?threads/warband-module-system-1-166-with-tweaks-and-giggles.324874/
 
-The `savegame` package can be considered a standalone package providing loading and saving functionality, as well as an AST (abstract syntax tree) format for the savegame format.
+The `savegame` package can be considered a standalone package providing loading and saving functionality, as well as an AST (abstract syntax tree) format for the savegame format. The main functions (`Load`, `Save`) are located in `io.go` and the root of the AST (the `Game` struct) is located in `game.go`.
+
 The `main` package will be used by me, the repository owner, to implement certain non-standard features. Feel free to use it as an example.
