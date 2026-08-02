@@ -1,7 +1,6 @@
 package savegame
 
 import (
-	"log"
 	"os"
 )
 
@@ -18,7 +17,7 @@ type Header struct {
 func (header *Header) Read(file *os.File) {
 	header.MagicNumber.Read(file)
 	if header.MagicNumber != 0x52445257 {
-		log.Fatal("Magic number not 0x52445257")
+		panic("Magic number not 0x52445257")
 	}
 	header.GameVersion.Read(file)
 	header.ModuleVersion.Read(file)
