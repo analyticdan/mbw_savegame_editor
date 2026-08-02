@@ -3,13 +3,14 @@ package main
 import (
 	"cmp"
 	"fmt"
-	. "mbw-savegame-editor/savegame/savegame"
 	"slices"
+
+	. "github.com/analyticdan/mbw-savegame-editor/data"
 )
 
 func main() {
 	inPath := "C:/Users/Daniel/Documents/Mount&Blade Warband Savegames/Vexed Native 1.154/sg06.sav"
-	game, err := Load(inPath)
+	game, err := LoadSavegame(inPath)
 	if err != nil {
 		panic(err)
 	}
@@ -18,8 +19,12 @@ func main() {
 	//printCompanionLocations(game)
 	//printNegativeReputationFiefs(game)
 	printVillagesInfestedByBandits(game)
-	printFortificationsByGarrisonSize(game, KhergitKhanate)
-	printFortificationsByGarrisonSize(game, SarranidSultanate)
+	printTownsWithBookSeller(game)
+	printTownsWithoutEnterprise(game)
+	printFortificationsByGarrisonSize(game, KingdomOfSwadia)
+	//printFortificationsByGarrisonSize(game, SarranidSultanate)
+	printFortificationsByGarrisonSize(game, KingdomOfRhodoks)
+	//printFortificationsByGarrisonSize(game, KingdomOfNords)
 }
 
 func printNegativeReputationFiefs(game Game) {
@@ -95,11 +100,39 @@ func printFortificationsByGarrisonSize(game Game, factionId int) {
 	for _, fortification := range fortifications {
 
 		if factionId == int(fortification.FactionId) {
-			var ladderString string
+			var ladderString, yoursString string
 			if isFortificationSiegedWithLadders(fortification) {
 				ladderString = " (ladder)"
 			}
-			fmt.Printf("%s%s: %d troops\n", fortification.Name, ladderString, getGarrisonSize(fortification))
+			if getFiefLordId(fortification) == 0 {
+				yoursString = " (yours) "
+			}
+			fmt.Printf("%s%s%s: %d troops\n", fortification.Name, ladderString, yoursString, getGarrisonSize(fortification))
+		}
+	}
+	fmt.Println("---")
+}
+
+func printTownsWithBookSeller(game Game) {
+	var bookSeller1Town, bookSeller2Town Party
+	for _, town := range getTowns(game) {
+		townBookSeller := getTownBookSeller(town)
+		switch townBookSeller {
+		case BookSeller1:
+			bookSeller1Town = town
+		case BookSeller2:
+			bookSeller2Town = town
+		}
+	}
+	fmt.Printf("Book Merchant 1 at: %s, Book Merchant 2 at: %s\n", &bookSeller1Town.Name, &bookSeller2Town.Name)
+	fmt.Println("---")
+}
+
+func printTownsWithoutEnterprise(game Game) {
+	fmt.Println("Towns without enterprises:")
+	for _, town := range getTowns(game) {
+		if !hasTownEnterprise(town) {
+			fmt.Println(town.Name)
 		}
 	}
 	fmt.Println("---")

@@ -1,8 +1,9 @@
 package main
 
 import (
-	. "mbw-savegame-editor/savegame/savegame"
 	"slices"
+
+	. "github.com/analyticdan/mbw-savegame-editor/data"
 )
 
 func getFief(game Game, fiefId int) Party {
@@ -37,6 +38,10 @@ func getAllFiefs(game Game) []Party {
 	return slices.Concat(getTowns(game), getCastles(game), getVillages(game))
 }
 
+func getFiefLordId(fief Party) int {
+	return int(fief.Slots[7])
+}
+
 func getFiefReputation(fief Party) int {
 	return int(fief.Slots[26])
 }
@@ -65,10 +70,13 @@ func getVillageMarket(game Game, village Party) Party {
 	return getFief(game, int(village.Slots[121]))
 }
 
+func getTownBookSeller(town Party) int {
+	return int(town.Slots[98])
+}
+
 func hasTownEnterprise(town Party) bool {
 	// cf. center_player_enterprise module_constants.py
 	return town.Slots[137] != 0
-
 }
 
 func isFortificationSiegedWithLadders(fortification Party) bool {

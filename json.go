@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"mbw-savegame-editor/savegame/savegame"
 	"os"
+
+	. "github.com/analyticdan/mbw-savegame-editor/data"
 )
 
-func ExportToJson(game savegame.Game, path string) {
+func ExportToJson(game Game, path string) {
 	out, err := os.Create(path)
 	if err != nil {
 		panic(err)

@@ -1,5 +1,3 @@
-module mbw-savegame-editor/savegame
+module github.com/analyticdan/mbw-savegame-editor
 
 go 1.23.0
-
-replace mbw-savegame-editor/savegame => ../savegame

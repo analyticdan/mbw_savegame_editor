@@ -1,0 +1,4 @@
+- Saving will corrupt the file if the user adds an element to a list without updating the corresponding Num.* Field. Update the corresponding write/append methods to fix this.
+- Add module.ini loading functionality to remove the hardcoded value of `loadRegularTroopInventory` in data/common.go
+- Add troop.txt module loading functionality to remove the hardcoded features of data/common.go and the CompanionsNameMap of constant.go and unlock un-renamed hero names as a feature.
+- Add item_kinds1.txt module loading functionality to get item stats as a feature.

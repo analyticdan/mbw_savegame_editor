@@ -503,3 +503,8 @@ const (
 	GoodNatured
 	Upstanding
 )
+
+const (
+	BookSeller1 = 186 + iota
+	BookSeller2
+)
