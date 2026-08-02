@@ -3,7 +3,6 @@ package savegame
 import "os"
 
 type PlayerPartyStack struct {
-	IsValid        bool //Internal variable
 	Experience     Float
 	NumUpgradeable Int32
 	TroopDnas      [32]Int32

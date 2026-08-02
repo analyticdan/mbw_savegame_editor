@@ -182,16 +182,10 @@ func (game *Game) Read(file *os.File) {
 	for i := 0; i < len(game.PartyRecords); i++ {
 		game.PartyRecords[i].Read(file, game.Header.GameVersion)
 	}
-	game.PlayerPartyStackAdditionalInfo = make([]PlayerPartyStack, len(game.PartyRecords[0].Party.Stacks))
-	for i := 0; i < len(game.PartyRecords[0].Party.Stacks); i++ {
-		/*TODO: Read in troop.txt module data to get true value of isHero
-		Below check uses a hard-coded value based on Native.*/
-		troopId := game.PartyRecords[0].Party.Stacks[i].TroopId
-		isHero := troopId == 0 || (troopId >= 194 && troopId < 463)
-		if isHero {
-			game.PlayerPartyStackAdditionalInfo[i].IsValid = false
-		} else {
-			game.PlayerPartyStackAdditionalInfo[i].IsValid = true
+	playerParty := game.PartyRecords[0].Party
+	game.PlayerPartyStackAdditionalInfo = make([]PlayerPartyStack, len(playerParty.Stacks))
+	for i := 0; i < len(playerParty.Stacks); i++ {
+		if hasAdditionalInfo(playerParty, i) {
 			game.PlayerPartyStackAdditionalInfo[i].Read(file, i)
 		}
 	}
@@ -310,8 +304,9 @@ func (game *Game) Write(buf []byte) []byte {
 	for i := 0; i < len(game.PartyRecords); i++ {
 		buf = game.PartyRecords[i].Append(buf, game.Header.GameVersion)
 	}
+	playerParty := game.PartyRecords[0].Party
 	for i := 0; i < len(game.PlayerPartyStackAdditionalInfo); i++ {
-		if game.PlayerPartyStackAdditionalInfo[i].IsValid {
+		if hasAdditionalInfo(playerParty, i) {
 			buf = game.PlayerPartyStackAdditionalInfo[i].Append(buf, i)
 		}
 	}
@@ -338,4 +333,12 @@ func (game *Game) Write(buf []byte) []byte {
 	buf = game.PlayerOwnTroopKillCount.Append(buf)
 	buf = game.PlayerOwnTroopWoundedCount.Append(buf)
 	return buf
+}
+
+func hasAdditionalInfo(playerParty Party, i int) bool {
+	troopId := playerParty.Stacks[i].TroopId
+	/*TODO: isHero should be calculated based on troop.txt module data.
+	Below uses a hard-coded value based on Native.*/
+	isHero := troopId == 0 || (troopId >= 194 && troopId < 463)
+	return !isHero
 }
