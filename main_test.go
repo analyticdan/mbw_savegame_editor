@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	. "github.com/analyticdan/mbw-savegame-editor/data"
+	"github.com/analyticdan/mbw-savegame-editor/savegame"
 )
 
 const (
@@ -17,16 +17,16 @@ const (
 )
 
 func TestCompareData(t *testing.T) {
-	DisableNaN = true
-	game, err := LoadSavegame(inPath)
+	savegame.DisableNaN = true
+	game, err := savegame.Load(inPath)
 	if err != nil {
 		t.Errorf("Could not load from: %s due to error:\n%s", inPath, err)
 	}
-	err = SaveSavegame(game, outPath)
+	err = savegame.Save(game, outPath)
 	if err != nil {
 		t.Errorf("Could not save to: %s due to error:\n%s", outPath, err)
 	}
-	game1, err := LoadSavegame(outPath)
+	game1, err := savegame.Load(outPath)
 	if err != nil {
 		t.Errorf("Could not load from: %s due to error:\n%s", outPath, err)
 	}
@@ -36,12 +36,12 @@ func TestCompareData(t *testing.T) {
 }
 
 func TestCompareSaveFiles(t *testing.T) {
-	DisableNaN = false
-	game, err := LoadSavegame(inPath)
+	savegame.DisableNaN = false
+	game, err := savegame.Load(inPath)
 	if err != nil {
 		t.Errorf("Could not load from: %s due to error:\n%s", inPath, err)
 	}
-	err = SaveSavegame(game, outPath)
+	err = savegame.Save(game, outPath)
 	if err != nil {
 		t.Errorf("Could not save to: %s due to error:\n%s", outPath, err)
 	}

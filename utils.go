@@ -3,7 +3,7 @@ package main
 import (
 	"slices"
 
-	. "github.com/analyticdan/mbw-savegame-editor/data"
+	. "github.com/analyticdan/mbw-savegame-editor/savegame"
 )
 
 func getFief(game Game, fiefId int) Party {

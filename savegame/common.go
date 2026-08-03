@@ -1,4 +1,4 @@
-package data
+package savegame
 
 /* For debugging purposes, as NaN cannot be compared or turned into JSON. */
 var DisableNaN bool

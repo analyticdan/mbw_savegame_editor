@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"slices"
 
-	. "github.com/analyticdan/mbw-savegame-editor/data"
+	"github.com/analyticdan/mbw-savegame-editor/savegame"
+	. "github.com/analyticdan/mbw-savegame-editor/savegame"
 )
 
 func main() {
 	inPath := "C:/Users/Daniel/Documents/Mount&Blade Warband Savegames/Vexed Native 1.154/sg06.sav"
-	game, err := LoadSavegame(inPath)
+	game, err := savegame.Load(inPath)
 	if err != nil {
 		panic(err)
 	}
@@ -22,9 +23,9 @@ func main() {
 	printTownsWithBookSeller(game)
 	printTownsWithoutEnterprise(game)
 	printFortificationsByGarrisonSize(game, KingdomOfSwadia)
-	//printFortificationsByGarrisonSize(game, SarranidSultanate)
+	printFortificationsByGarrisonSize(game, SarranidSultanate)
 	printFortificationsByGarrisonSize(game, KingdomOfRhodoks)
-	//printFortificationsByGarrisonSize(game, KingdomOfNords)
+	printFortificationsByGarrisonSize(game, KingdomOfNords)
 }
 
 func printNegativeReputationFiefs(game Game) {

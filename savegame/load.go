@@ -1,4 +1,4 @@
-package data
+package savegame
 
 import (
 	"encoding/binary"
@@ -473,7 +473,7 @@ func (game *Game) read(file *os.File) {
 	game.PlayerOwnTroopWoundedCount.read(file)
 }
 
-func LoadSavegame(path string) (game Game, err error) {
+func Load(path string) (game Game, err error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return game, err

@@ -1,4 +1,4 @@
-package data
+package savegame
 
 type Bool bool
 type Int32 int32

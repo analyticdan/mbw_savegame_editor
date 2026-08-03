@@ -1,4 +1,4 @@
-package data
+package savegame
 
 import (
 	"encoding/binary"
@@ -471,7 +471,7 @@ func (game *Game) write() []byte {
 	return buf
 }
 
-func SaveSavegame(game Game, path string) (err error) {
+func Save(game Game, path string) (err error) {
 	file, err := os.Create(path)
 	if err != nil {
 		return err
