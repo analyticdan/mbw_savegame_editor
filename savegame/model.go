@@ -73,7 +73,7 @@ type Faction struct {
 	Name      String
 	Renamed   Bool
 	Color     UInt32
-	_unused   Int32
+	Unused    Int32
 	Notes     [16]Note
 }
 
@@ -127,7 +127,7 @@ type Party struct {
 	ExtraText                   String
 	Morale                      Float
 	Hunger                      Float
-	_unused1                    Float
+	Unused1                     Float
 	PatrolRadius                Float
 	Initiative                  Float
 	Helpfulness                 Float
@@ -142,7 +142,7 @@ type Party struct {
 	ExtraMapIconRotateFrequency Float
 	ExtraMapIconFadeFrequency   Float
 	AttachedToPartyId           Int32
-	_unused2                    Int32
+	Unused2                     Int32
 	IsAttached                  Bool
 	NumAttachedPartyIds         Int32
 	AttachedPartyIds            []Int32
@@ -167,14 +167,14 @@ type PlayerPartyStack struct {
 }
 
 type MapEvent struct {
-	_unused0              String
+	Unused0               String
 	Type                  Int32
 	PositionX             Float
 	PositionY             Float
 	LandPositionX         Float
 	LandPositionY         Float
-	_unused1              Float
-	_unused2              Float
+	Unused1               Float
+	Unused2               Float
 	AttackerPartyId       Int32
 	DefenderPartyId       Int32
 	BattleSimulationTimer Int64
@@ -239,13 +239,13 @@ type Game struct {
 	Week                           Int32
 	Month                          Int32
 	Year                           Int32
-	_unused0                       Int32
+	Unused0                        Int32
 	GlobalCloudAmount              Float
 	GlobalHazeAmount               Float
 	AverageDifficulty              Float
 	AverageDifficultyPeriod        Float
-	_unused1                       String
-	_unused2                       Bool
+	Unused1                        String
+	Unused2                        Bool
 	TutorialFlags                  Int32
 	DefaultPrisonerPrice           Int32
 	EncounteredParty1Id            Int32
@@ -257,8 +257,8 @@ type Game struct {
 	PartyCreationMinRandomValue    Int32
 	PartyCreationMaxRandomValue    Int32
 	GameLog                        String
-	_unused3                       [6]Int32
-	_unused4                       Int64
+	Unused3                        [6]Int32
+	Unused4                        Int64
 	RestPeriod                     Float
 	RestTimeSpeed                  Int32
 	RestIsInteractive              Int32
@@ -291,7 +291,7 @@ type Game struct {
 	MapEventRecords                []MapEventRecord
 	NumTroops                      Int32
 	Troops                         []Troop
-	_unused5                       [42]Int32
+	Unused5                        [42]Int32
 	NumItemKinds                   Int32
 	ItemKinds                      []ItemKind
 	PlayerFaceKeys0                Int64

@@ -132,7 +132,7 @@ func (faction *Faction) read(file *os.File) {
 	faction.Name.read(file)
 	faction.Renamed.read(file)
 	faction.Color.read(file)
-	faction._unused.read(file)
+	faction.Unused.read(file)
 	for i := 0; i < len(faction.Notes); i++ {
 		faction.Notes[i].read(file)
 	}
@@ -194,7 +194,7 @@ func (party *Party) read(file *os.File, gameVersion Int32) {
 	party.ExtraText.read(file)
 	party.Morale.read(file)
 	party.Hunger.read(file)
-	party._unused1.read(file)
+	party.Unused1.read(file)
 	party.PatrolRadius.read(file)
 	party.Initiative.read(file)
 	party.Helpfulness.read(file)
@@ -214,7 +214,7 @@ func (party *Party) read(file *os.File, gameVersion Int32) {
 	}
 	party.AttachedToPartyId.read(file)
 	if gameVersion >= 1162 {
-		party._unused2.read(file)
+		party.Unused2.read(file)
 	}
 	party.IsAttached.read(file)
 	party.NumAttachedPartyIds.read(file)
@@ -257,14 +257,14 @@ func (playerPartyStack *PlayerPartyStack) read(file *os.File, stackIndex int) {
 }
 
 func (mapEvent *MapEvent) read(file *os.File) {
-	mapEvent._unused0.read(file)
+	mapEvent.Unused0.read(file)
 	mapEvent.Type.read(file)
 	mapEvent.PositionX.read(file)
 	mapEvent.PositionY.read(file)
 	mapEvent.LandPositionX.read(file)
 	mapEvent.LandPositionY.read(file)
-	mapEvent._unused1.read(file)
-	mapEvent._unused2.read(file)
+	mapEvent.Unused1.read(file)
+	mapEvent.Unused2.read(file)
 	mapEvent.AttackerPartyId.read(file)
 	mapEvent.DefenderPartyId.read(file)
 	mapEvent.BattleSimulationTimer.read(file)
@@ -358,13 +358,13 @@ func (game *Game) read(file *os.File) {
 	game.Week.read(file)
 	game.Month.read(file)
 	game.Year.read(file)
-	game._unused0.read(file)
+	game.Unused0.read(file)
 	game.GlobalCloudAmount.read(file)
 	game.GlobalHazeAmount.read(file)
 	game.AverageDifficulty.read(file)
 	game.AverageDifficultyPeriod.read(file)
-	game._unused1.read(file)
-	game._unused2.read(file)
+	game.Unused1.read(file)
+	game.Unused2.read(file)
 	game.TutorialFlags.read(file)
 	game.DefaultPrisonerPrice.read(file)
 	game.EncounteredParty1Id.read(file)
@@ -376,10 +376,10 @@ func (game *Game) read(file *os.File) {
 	game.PartyCreationMinRandomValue.read(file)
 	game.PartyCreationMaxRandomValue.read(file)
 	game.GameLog.read(file)
-	for i := 0; i < len(game._unused3); i++ {
-		game._unused3[i].read(file)
+	for i := 0; i < len(game.Unused3); i++ {
+		game.Unused3[i].read(file)
 	}
-	game._unused4.read(file)
+	game.Unused4.read(file)
 	game.RestPeriod.read(file)
 	game.RestTimeSpeed.read(file)
 	game.RestIsInteractive.read(file)
@@ -457,8 +457,8 @@ func (game *Game) read(file *os.File) {
 	for i := 0; i < len(game.Troops); i++ {
 		game.Troops[i].read(file)
 	}
-	for i := 0; i < len(game._unused5); i++ {
-		game._unused5[i].read(file)
+	for i := 0; i < len(game.Unused5); i++ {
+		game.Unused5[i].read(file)
 	}
 	game.NumItemKinds.read(file)
 	game.ItemKinds = make([]ItemKind, game.NumItemKinds)

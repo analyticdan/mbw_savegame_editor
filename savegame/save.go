@@ -138,7 +138,7 @@ func (faction *Faction) append(buf []byte) []byte {
 	buf = faction.Name.append(buf)
 	buf = faction.Renamed.append(buf)
 	buf = faction.Color.append(buf)
-	buf = faction._unused.append(buf)
+	buf = faction.Unused.append(buf)
 	for i := 0; i < len(faction.Notes); i++ {
 		buf = faction.Notes[i].append(buf)
 	}
@@ -202,7 +202,7 @@ func (party *Party) append(buf []byte, gameVersion Int32) []byte {
 	buf = party.ExtraText.append(buf)
 	buf = party.Morale.append(buf)
 	buf = party.Hunger.append(buf)
-	buf = party._unused1.append(buf)
+	buf = party.Unused1.append(buf)
 	buf = party.PatrolRadius.append(buf)
 	buf = party.Initiative.append(buf)
 	buf = party.Helpfulness.append(buf)
@@ -222,7 +222,7 @@ func (party *Party) append(buf []byte, gameVersion Int32) []byte {
 	}
 	buf = party.AttachedToPartyId.append(buf)
 	if gameVersion >= 1162 {
-		buf = party._unused2.append(buf)
+		buf = party.Unused2.append(buf)
 	}
 	buf = party.IsAttached.append(buf)
 	buf = party.NumAttachedPartyIds.append(buf)
@@ -265,14 +265,14 @@ func (playerPartyStack *PlayerPartyStack) append(buf []byte, stackIndex int) []b
 }
 
 func (mapEvent *MapEvent) append(buf []byte) []byte {
-	buf = mapEvent._unused0.append(buf)
+	buf = mapEvent.Unused0.append(buf)
 	buf = mapEvent.Type.append(buf)
 	buf = mapEvent.PositionX.append(buf)
 	buf = mapEvent.PositionY.append(buf)
 	buf = mapEvent.LandPositionX.append(buf)
 	buf = mapEvent.LandPositionY.append(buf)
-	buf = mapEvent._unused1.append(buf)
-	buf = mapEvent._unused2.append(buf)
+	buf = mapEvent.Unused1.append(buf)
+	buf = mapEvent.Unused2.append(buf)
 	buf = mapEvent.AttackerPartyId.append(buf)
 	buf = mapEvent.DefenderPartyId.append(buf)
 	buf = mapEvent.BattleSimulationTimer.append(buf)
@@ -370,13 +370,13 @@ func (game *Game) write() []byte {
 	buf = game.Week.append(buf)
 	buf = game.Month.append(buf)
 	buf = game.Year.append(buf)
-	buf = game._unused0.append(buf)
+	buf = game.Unused0.append(buf)
 	buf = game.GlobalCloudAmount.append(buf)
 	buf = game.GlobalHazeAmount.append(buf)
 	buf = game.AverageDifficulty.append(buf)
 	buf = game.AverageDifficultyPeriod.append(buf)
-	buf = game._unused1.append(buf)
-	buf = game._unused2.append(buf)
+	buf = game.Unused1.append(buf)
+	buf = game.Unused2.append(buf)
 	buf = game.TutorialFlags.append(buf)
 	buf = game.DefaultPrisonerPrice.append(buf)
 	buf = game.EncounteredParty1Id.append(buf)
@@ -388,10 +388,10 @@ func (game *Game) write() []byte {
 	buf = game.PartyCreationMinRandomValue.append(buf)
 	buf = game.PartyCreationMaxRandomValue.append(buf)
 	buf = game.GameLog.append(buf)
-	for i := 0; i < len(game._unused3); i++ {
-		buf = game._unused3[i].append(buf)
+	for i := 0; i < len(game.Unused3); i++ {
+		buf = game.Unused3[i].append(buf)
 	}
-	buf = game._unused4.append(buf)
+	buf = game.Unused4.append(buf)
 	buf = game.RestPeriod.append(buf)
 	buf = game.RestTimeSpeed.append(buf)
 	buf = game.RestIsInteractive.append(buf)
@@ -455,8 +455,8 @@ func (game *Game) write() []byte {
 	for i := 0; i < len(game.Troops); i++ {
 		buf = game.Troops[i].append(buf)
 	}
-	for i := 0; i < len(game._unused5); i++ {
-		buf = game._unused5[i].append(buf)
+	for i := 0; i < len(game.Unused5); i++ {
+		buf = game.Unused5[i].append(buf)
 	}
 	buf = game.NumItemKinds.append(buf)
 	for i := 0; i < len(game.ItemKinds); i++ {
